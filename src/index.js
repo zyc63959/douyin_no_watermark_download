@@ -54,7 +54,20 @@ app.post('/workflow', async (req, res) => {
         res.send({ code: 1, msg: String(e), data: null })
     }
 })
-
+app.post('/tasker', async (req, res) => {
+    const url = req.body.url;
+    try {
+        const douyinId = await scraper.getDouyinVideoId(url);
+        const douyinData = await scraper.getDouyinVideoData(douyinId);
+        //const douyinUrl = await scraper.getDouyinNoWatermarkVideo(douyinData);
+        //const imgUrl = await scraper.getDouyinImageUrls(douyinData)
+        const data = await scraper.getBaseInfo(douyinData);
+        res.send({ code: 0, data })
+    } catch (e) {
+        console.log(e)
+        res.send({ code: 1, msg: String(e), data: null })
+    }
+})
 const getReadmeContent = () => {
     const content = fs.readFileSync(path.join(__dirname, '../README.md'), 'utf-8')
     const htmlContent = marked(content)
