@@ -157,30 +157,34 @@ class Scraper {
      * @returns {object}
      */
 async getBaseInfo(videoData) {
-    let noWatermarkUrl;
+    let noWatermarkUrls = [];
+    const isImagesShare = [2, 42].includes(videoData.aweme_detail.media_type)
     const nickname = videoData.aweme_detail.author.nickname;
     const desc = videoData.aweme_detail.desc;
     const fileName = `${nickname} - ${desc} 【抖音】`;
     const idm = {}
     const isFyp = videoData.aweme_detail.media_type === 2
-    if (!isFyp) {
+    if (!isImagesShare) {
         let url = videoData.aweme_detail.video.play_addr.url_list[0];
         let key = videoData.aweme_detail.video.play_addr.uri.replace('video/', '');
-        noWatermarkUrl = url.replace('/play/', '/playwm/') + '?video_id=' + key;
+        const noWatermarkUrl = url.replace('/play/', '/playwm/');
+            if (noWatermarkUrl) {
+                noWatermarkUrls = [noWatermarkUrl]
+            }
         idm.url = noWatermarkUrl
         idm.name = fileName
     } else {
         // 图片分享
         let images = videoData?.aweme_detail?.images
-        noWatermarkUrl = images.map(i => {
+        noWatermarkUrls = images.map(i => {
             if (!i?.url_list) return null
             const maxSizePicIndex = i?.url_list.length - 1
             return i?.url_list[maxSizePicIndex]
         }).filter(i => i)
-        idm.url = noWatermarkUrl.toString()
-        idm.name = Array.from({ length: noWatermarkUrl.length }, (_, index) => `${nickname} - ${desc}${index}【抖音】`).join();
+        idm.url = noWatermarkUrls.toString()
+        idm.name = Array.from({ length: noWatermarkUrls.length }, (_, index) => `${nickname} - ${desc}${index}【抖音】`).join();
     }
-    return { fileName, noWatermarkUrl, idm };
+    return { fileName, noWatermarkUrls, idm };
 }
 
     /**
