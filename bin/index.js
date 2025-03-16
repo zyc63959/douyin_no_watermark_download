@@ -13,7 +13,7 @@ class Scraper {
             'accept-encoding': 'gzip, deflate, br',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
             'referer': 'https://www.douyin.com/',
-            'cookie': 'sid_guard=c26101b552cd77ff2265ab30eb8e07f7%7C1735836350%7C5183988%7CMon%2C+03-Mar-2025+16%3A45%3A38+GMT;'
+            'cookie': 'sid_guard=f973318f7a792a8ea1e340ccdb1d175e%7C1742106048%7C5184000%7CThu%2C+15-May-2025+06%3A20%3A48+GMT;'
             // 其他请求头
         };
     }
